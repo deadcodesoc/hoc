@@ -3,6 +3,8 @@
 #include "hoc.h"
 #define	code2(c1,c2)	code(c1); code(c2)
 #define	code3(c1,c2,c3)	code(c1); code(c2); code(c3)
+extern int indef;
+void yyerror(char*);
 %}
 %union {
 	Symbol	*sym;	/* symbol table pointer */
@@ -309,7 +311,7 @@ int
 main(int argc, char* argv[])	/* hoc6 */
 {
 	static int first = 1;
-#ifdef YYDEBUG
+#if YYDEBUG > 0
 	extern int yydebug;
 	yydebug=3;
 #endif
