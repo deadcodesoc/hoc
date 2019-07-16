@@ -5,11 +5,12 @@
 #define	code3(c1,c2,c3)	code(c1); code(c2); code(c3)
 extern int indef;
 void yyerror(char*);
+int yylex(void);
 %}
 %union {
 	Symbol	*sym;	/* symbol table pointer */
 	Inst	*inst;	/* machine instruction */
-	int	narg;	/* number of arguments */
+	long	narg;	/* number of arguments */
 }
 %token	<sym>	NUMBER STRING PRINT VAR BLTIN UNDEF WHILE FOR IF ELSE
 %token	<sym>	FUNCTION PROCEDURE RETURN FUNC PROC READ
@@ -150,7 +151,7 @@ int	indef;
 char	*infile;	/* input file name */
 FILE	*fin;		/* input file pointer */
 char	**gargv;	/* global argument list */
-extern	errno;
+extern int	errno;
 int	gargc;
 
 int c = '\n';	/* global for use by warning() */
@@ -159,6 +160,7 @@ int	backslash(int), follow(int, int, int);
 void	defnonly(char*), run(void);
 void	warning(char*, char*);
 
+int
 yylex(void)		/* hoc6 */
 {
 	while ((c=getc(fin)) == ' ' || c == '\t')
@@ -246,6 +248,7 @@ yylex(void)		/* hoc6 */
 	}
 }
 
+int
 backslash(int c)	/* get next char with \'s interpreted */
 {
 	static char transtab[] = "b\bf\fn\nr\rt\t";
@@ -257,6 +260,7 @@ backslash(int c)	/* get next char with \'s interpreted */
 	return c;
 }
 
+int
 follow(int expect, int ifyes, int ifno)	/* look ahead for >=, etc. */
 {
 	int c = getc(fin);
@@ -333,6 +337,7 @@ main(int argc, char* argv[])	/* hoc6 */
 	return 0;
 }
 
+int
 moreinput(void)
 {
 	if (gargc-- <= 0)
