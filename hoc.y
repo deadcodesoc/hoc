@@ -305,8 +305,6 @@ void
 run(void)	/* execute until EOF */
 {
 	setjmp(begin);
-	signal(SIGINT, intcatch);
-	signal(SIGFPE, fpecatch);
 	for (initcode(); yyparse(); initcode())
 		execute(progbase);
 }
